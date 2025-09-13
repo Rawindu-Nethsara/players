@@ -16,7 +16,7 @@
       margin: 0;
     }
     .plyr {
-      max-width: 800px;
+      max-width: 900px;
       width: 100%;
       border-radius: 12px;
       overflow: hidden;
@@ -28,10 +28,11 @@
 
   <!-- Video Player -->
   <video id="player" playsinline controls>
-    <source src="https://archive.org/details/moovieds-uploader-bot/0a21c614-3fb4-4e24-86ef-916eae3eca53_encoded.mp4" type="video/mp4" />
+    <!-- Replace with your Archive.org MP4 -->
+    <source src="https://archive.org/download/moovieds-uploader-bot/0a21c614-3fb4-4e24-86ef-916eae3eca53_encoded.mp4" type="video/mp4" />
     
-    <!-- Subtitle track -->
-    <track kind="subtitles" label="English" srclang="en" src="https://res.cloudinary.com/dyqw58yqs/raw/upload/v1755586122/sinners.2025.1080p.10bit.webrip.6ch.x265.hevc-psa_txsiyx.vtt" default>
+    <!-- Subtitles hosted in repo -->
+    <track kind="subtitles" label="English" srclang="en" src="subs/movie.vtt" default>
   </video>
 
   <!-- Plyr JS -->
