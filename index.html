@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plyr Player with Subtitle</title>
+  <!-- Plyr CSS -->
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+  <style>
+    body {
+      background: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .plyr {
+      max-width: 800px;
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Video Player -->
+  <video id="player" playsinline controls>
+    <source src="https://cdn.plyr.io/static/blank.mp4" type="video/mp4" />
+    
+    <!-- Subtitle track -->
+    <track kind="subtitles" label="English" srclang="en" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt" default>
+  </video>
+
+  <!-- Plyr JS -->
+  <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+  <script>
+    const player = new Plyr('#player', {
+      captions: { active: true, update: true, language: 'en' }
+    });
+  </script>
+</body>
+</html>
