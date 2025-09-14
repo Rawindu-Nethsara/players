@@ -722,20 +722,7 @@
             </div>
         </div>
     </div>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-        import { getDatabase, ref, onValue, set, onDisconnect, increment, update, remove } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
-        const firebaseConfig = {
-            apiKey: "AIzaSyD_t_TMaHO9Ei3oYK8ebzgstiZ_dWLmp9w",
-            authDomain: "video-player-count.firebaseapp.com",
-            projectId: "video-player-count",
-            storageBucket: "video-player-count.firebasestorage.app",
-            messagingSenderId: "668890351373",
-            appId: "1:668890351373:web:48de5a6ccede3f8fe5d244",
-            measurementId: "G-PDP0S0XNYB"
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+    <script>
         class ModernVideoPlayer {
             constructor() {
                 this.video = document.getElementById('video');
@@ -772,12 +759,6 @@
                 this.adVideos = ['https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4'];
                 this.mainTime = 0;
                 this.countdownInterval = null;
-                this.userId = Math.random().toString(36).substr(2, 9);
-                this.liveCount = 0;
-                this.pageViews = 0;
-                this.liveCountSpan = document.getElementById('liveCount');
-                this.totalViewsSpan = document.getElementById('totalViews');
-                this.pageId = window.location.pathname.split('/').pop() || 'default';
                 this.isMobile = window.innerWidth <= 768;
                 this.isLandscape = false;
                 this.init();
@@ -801,17 +782,6 @@
                         this.adjustSubtitlePosition();
                         this.updateTimeDisplay();
                     });
-                    this.createLiveIndicator();
-                    const viewersRef = ref(db, 'viewers');
-                    onValue(viewersRef, (snap) => {
-                        this.liveCount = snap.exists() ? Object.keys(snap.val()).length : 0;
-                        this.liveCountSpan.textContent = this.liveCount;
-                    });
-                    const pageViewsRef = ref(db, `pageViews/${this.pageId}`);
-                    onValue(pageViewsRef, (snap) => {
-                        this.pageViews = snap.val() || 0;
-                        this.totalViewsSpan.textContent = this.pageViews;
-                    });
                     const tracks = this.video.querySelectorAll('track');
                     tracks.forEach(track => {
                         track.addEventListener('error', (e) => {
@@ -822,14 +792,6 @@
                         });
                     });
                     this.video.controls = false;
-                    const presenceRef = ref(db, 'viewers/' + this.userId);
-                    set(presenceRef, {
-                        timestamp: Date.now(),
-                        userAgent: navigator.userAgent
-                    });
-                    onDisconnect(presenceRef).remove();
-                    const pageViewsRefUpdate = ref(db, `pageViews/${this.pageId}`);
-                    update(ref(db), { [`pageViews/${this.pageId}`]: increment(1) });
                     this.video.addEventListener('error', (e) => {
                         console.error('Video loading error:', e);
                         this.loading.style.display = 'none';
@@ -840,15 +802,6 @@
                     });
                 } catch (error) {
                     console.error('Initialization error:', error);
-                }
-            }
-            createLiveIndicator() {
-                const liveStatItem = this.liveCountSpan.closest('.stat-item');
-                if (liveStatItem) {
-                    liveStatItem.classList.add('live-stat');
-                    const dot = document.createElement('span');
-                    dot.className = 'live-indicator-dot';
-                    liveStatItem.insertBefore(dot, liveStatItem.firstChild);
                 }
             }
             checkOrientation() {
